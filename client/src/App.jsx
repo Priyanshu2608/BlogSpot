@@ -6,9 +6,11 @@ import Signup from './pages/Signup'
 import Signin from './pages/Signin'
 import Dashboard from './pages/Dashboard'
 import Project from './pages/Project'
+import Header from './components/Header'
 const App = () => {
   return (
     <BrowserRouter>
+    <Header/>
 <Routes>
     <Route path="/" element={<Home/>} />
     <Route path="/about" element={<About/>} />
@@ -17,7 +19,10 @@ const App = () => {
     <Route path="/dashboard" element={<Dashboard/>} />
     <Route path="/project" element={<Project/>} />
 </Routes>
+<script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+
 </BrowserRouter>
+
   )
 }
 
