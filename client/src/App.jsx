@@ -19,8 +19,6 @@ const App = () => {
     <Route path="/dashboard" element={<Dashboard/>} />
     <Route path="/project" element={<Project/>} />
 </Routes>
-<script src="../path/to/flowbite/dist/flowbite.min.js"></script>
-
 </BrowserRouter>
 
   )
