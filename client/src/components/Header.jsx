@@ -5,12 +5,12 @@ const Header = () => {
   return (
     <nav className='flex items-center justify-between border-b border-gray-200  bg-gradient-to-t from-blue-900 to-indigo-900 px-8 py-3'>
       <Link to='/' className='text-sm sm:text-xl'>
-        <span className='font-semibold text-white font-poppins'>Blog Website</span>
+        <span className='font-semibold text-white font-serif'>Blog Website</span>
       </Link>
       <ul className='flex gap-8 text-white justify-center ml-[200px] font-bold '>
         <Link to='/'><li className='hover:text-blue-950'>Home</li></Link>
         <Link to='/about'><li className='hover:text-blue-950'>About</li></Link>
-        <Link to='/project'><li className='hover:text-blue-950'>Projects</li></Link>
+        <Link to='/project'><li className='hover:text-blue-950'>Projecoqejiwhts</li></Link>
       </ul>
       <div className='flex items-center mr-[-250px] '>
         <input
