@@ -10,7 +10,7 @@ const Header = () => {
       <ul className='flex gap-8 text-white justify-center ml-[200px] font-bold '>
         <Link to='/'><li className='hover:text-blue-950'>Home</li></Link>
         <Link to='/about'><li className='hover:text-blue-950'>About</li></Link>
-        <Link to='/project'><li className='hover:text-blue-950'>Projecoqejiwhts</li></Link>
+        <Link to='/project'><li className='hover:text-blue-950'>Project</li></Link>
       </ul>
       <div className='flex items-center mr-[-250px] '>
         <input
