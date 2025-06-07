@@ -4,6 +4,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { auth, provider, signInWithPopup } from "../firebase"; // path to your firebase.js
+import Blog from '../assets/Blogspot.png'
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -29,14 +31,25 @@ const Signup = () => {
     }
   };
 
-  const handleGoogleSignup = () => {
-    toast.info("Google signup is not implemented yet.");
+  const handleGoogleSignup = async () => {
+    try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    toast.success(`Welcome, ${user.displayName}`);
+    // You can also send user.email or user.uid to your backend if needed
+    setTimeout(() => navigate("/dashboard"), 1500);
+  } catch (error) {
+    toast.error("Google sign-in failed");
+    console.error(error);
+  }
   };
 
   return (
     <>
       <ToastContainer position="top-center" />
       <div className="min-h-screen bg-gradient-to-br from-white to-gray-100 flex items-center justify-center px-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2 text-center">WELCOME TO BLOGSPOT</h1>
+  <img src={Blog} alt="BlogSpot" className="h-[150px] mb-[-100px] relative left-[-330px]" />
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
 
