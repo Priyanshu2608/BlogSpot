@@ -19,9 +19,9 @@ const Header = () => {
           className='px-4 py-1 rounded-lg border-1 border-blue-700 bg-white text-black'
         />
       </div>
-      <div className='flex items-center hover:bg-blue-950 rounded-2xl'>
-        <button className='cursor-pointer '>
-           <Link to='/signin'><span className='text-blue-700 font-semibold border-2 mr-2 px-4 py-1 rounded-2xl'>Sign in</span></Link>
+      <div className='flex items-center  rounded-2xl'>
+        <button className='cursor-pointer  '>
+           <Link to='/signin'><span className='text-blue-500 font-semibold border-2 mr-2 px-4 py-1 rounded-2xl hover:bg-blue-950'>Sign in</span></Link>
         </button>
       </div>
     </nav>
