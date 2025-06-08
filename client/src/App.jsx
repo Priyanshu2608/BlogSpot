@@ -7,6 +7,7 @@ import Signin from './pages/Signin';
 import Dashboard from './pages/Dashboard';
 import Project from './pages/Project';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -23,6 +24,7 @@ const AppWrapper = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/project" element={<Project />} />
+        
       </Routes>
     </>
   );
@@ -32,6 +34,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <AppWrapper />
+      <Footer/>
     </BrowserRouter>
   );
 };
