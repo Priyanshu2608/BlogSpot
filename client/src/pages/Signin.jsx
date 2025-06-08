@@ -38,6 +38,12 @@ const signin = () => {
       toast.error("Google sign-in failed");
       console.error(error);
     }
+    console.log("✅ Google Sign-In:");
+  console.log("🧑 Name:", user.displayName);
+  console.log("📧 Email:", user.email);
+  console.log("🖼️ Profile Pic:", user.photoURL);
+  console.log("🕒 Time:", new Date().toLocaleString());
+
   };
 
   return (
