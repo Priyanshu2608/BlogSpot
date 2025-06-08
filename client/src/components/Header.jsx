@@ -2,18 +2,20 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu as MenuIcon, X, Search } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
-import { Menu } from '@headlessui/react';
-import { signInFailure } from "../redux/user/userSlice"; // optional: include logout logic here
+import { Menu } from "@headlessui/react";
+import { signInFailure } from "../redux/user/userSlice";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector((state) => state.user);
+  const user = currentUser?.user || currentUser; // Handle both simple & Google login
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(signInFailure(null)); // clears user from Redux state
-    // optionally also clear from localStorage if persist is used
-  };
+  localStorage.removeItem("user"); 
+  sessionStorage.removeItem("user"); 
+  dispatch(signInFailure(null));
+};
 
   return (
     <header className="bg-gradient-to-r from-blue-50 to-blue-100 shadow-md sticky top-0 z-50">
@@ -43,24 +45,38 @@ const Header = () => {
           <Search className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 w-5 h-5" />
         </div>
 
-        {/* Auth Button or Dropdown */}
+        {/* Desktop Avatar or Sign In */}
         <div className="hidden md:flex items-center">
-          {currentUser ? (
+          {user ? (
             <Menu as="div" className="relative inline-block text-left">
               <Menu.Button className="flex items-center gap-2 focus:outline-none">
-                <img
-                  src={currentUser.photoURL || `https://ui-avatars.com/api/?name=${currentUser.name || "U"}&background=random`}
-                  alt="User Avatar"
-                  className="w-9 h-9 rounded-full border border-gray-300 shadow-sm"
-                />
+                {user?.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt="User Avatar"
+                    className="w-9 h-9 rounded-full border border-gray-300 shadow-sm"
+                  />
+                ) : (
+                  <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg font-semibold shadow-sm border border-gray-300">
+                    {(user.displayName?.[0] || user.username?.[0] || "U").toUpperCase()}
+                  </div>
+                )}
               </Menu.Button>
-              <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg focus:outline-none z-50">
-                <div className="px-1 py-1">
+              <Menu.Items className="absolute right-0 mt-2 w-60 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg focus:outline-none z-50">
+                <div className="px-4 py-3">
+                  <p className="text-sm font-medium text-gray-900">
+                    {user.displayName || user.username}
+                  </p>
+                  <p className="text-sm text-gray-500 truncate">
+                    {user.email}
+                  </p>
+                </div>
+                <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
                       <Link
                         to="/dashboard?tab=profile"
-                        className={`${active ? 'bg-gray-100' : ''} block px-4 py-2 text-sm text-gray-700`}
+                        className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-gray-700`}
                       >
                         Profile
                       </Link>
@@ -70,7 +86,7 @@ const Header = () => {
                     {({ active }) => (
                       <Link
                         to="/dashboard"
-                        className={`${active ? 'bg-gray-100' : ''} block px-4 py-2 text-sm text-gray-700`}
+                        className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-gray-700`}
                       >
                         Dashboard
                       </Link>
@@ -78,12 +94,14 @@ const Header = () => {
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
+                      <Link to="/signin">
                       <button
                         onClick={handleLogout}
-                        className={`${active ? 'bg-gray-100' : ''} block w-full text-left px-4 py-2 text-sm text-red-600`}
+                        className={`${active ? "bg-gray-100" : ""} block w-full text-left px-4 py-2 text-sm text-red-600`}
                       >
                         Logout
                       </button>
+                      </Link>
                     )}
                   </Menu.Item>
                 </div>
@@ -115,8 +133,12 @@ const Header = () => {
             <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
             <Link to="/project" onClick={() => setIsMenuOpen(false)}>Project</Link>
 
-            {currentUser ? (
+            {user ? (
               <>
+                <div className="border-t pt-3">
+                  <div className="font-semibold text-gray-800">{user.displayName || user.username}</div>
+                  <div className="text-sm text-gray-500 mb-2">{user.email}</div>
+                </div>
                 <Link to="/dashboard?tab=profile" onClick={() => setIsMenuOpen(false)}>Profile</Link>
                 <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
                 <button
