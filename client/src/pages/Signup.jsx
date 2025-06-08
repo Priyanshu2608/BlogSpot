@@ -4,27 +4,32 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { auth, provider, signInWithPopup } from "../firebase"; // path to your firebase.js
-import Blog from '../assets/Blogspot.png'
+import { auth, provider, signInWithPopup } from "../firebase";
+import Blog from '../assets/Blogspot.png';
 
 const Signup = () => {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
     trigger,
-    setValue,
   } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/signup", data);
-      toast.success(res.data);
+      const res = await axios.post("http://localhost:3000/api/auth/signup", data, {
+        withCredentials: true,
+      });
+
+      toast.success("Signup successful! Please sign in.");
       reset();
-      setTimeout(() => navigate("/dashboard"), 1500);
+
+      setTimeout(() => navigate("/signin"), 1500); // Redirect to Signin
     } catch (err) {
+      console.log("Signup error:", err.response);
       const backendMessage =
         err.response?.data?.message || err.response?.data || "Signup failed";
       toast.error(backendMessage);
@@ -33,23 +38,23 @@ const Signup = () => {
 
   const handleGoogleSignup = async () => {
     try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    toast.success(`Welcome, ${user.displayName}`);
-    // You can also send user.email or user.uid to your backend if needed
-    setTimeout(() => navigate("/dashboard"), 1500);
-  } catch (error) {
-    toast.error("Google sign-in failed");
-    console.error(error);
-  }
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      toast.success(`Welcome, ${user.displayName}! Now sign in manually.`);
+      setTimeout(() => navigate("/signin"), 1500);
+    } catch (error) {
+      toast.error("Google sign-in failed");
+    }
   };
 
   return (
     <>
       <ToastContainer position="top-center" />
       <div className="min-h-screen bg-gradient-to-br from-white to-gray-100 flex items-center justify-center px-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2 text-center">WELCOME TO BLOGSPOT</h1>
-  <img src={Blog} alt="BlogSpot" className="h-[150px] mb-[-100px] relative left-[-330px]" />
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2 text-center">WELCOME TO BLOGSPOT</h1>
+        <img src={Blog} alt="BlogSpot" className="h-[150px] mb-[-100px] relative left-[-330px]" />
+
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
 
@@ -81,7 +86,7 @@ const Signup = () => {
                 })}
                 onChange={(e) => {
                   register("email").onChange(e);
-                  trigger("email"); // triggers live validation
+                  trigger("email");
                 }}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -104,9 +109,8 @@ const Signup = () => {
                 })}
                 onChange={(e) => {
                   register("password").onChange(e);
-                  trigger("password"); // triggers live validation
+                  trigger("password");
                 }}
-                
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {errors.password && (
