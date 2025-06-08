@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import Project from './pages/Project';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import PrivateRouter from './components/PrivateRouter';
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -22,7 +23,9 @@ const AppWrapper = () => {
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
+        <Route element={<PrivateRouter/>}>
         <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
         <Route path="/project" element={<Project />} />
         
       </Routes>
