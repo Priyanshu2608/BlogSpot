@@ -15,7 +15,7 @@ const DashSidebar = () => {
     }
   },[location.search]);
   return (
-    <Sidebar className='bg-blue-800' >
+    <Sidebar className='w-full md:w-56  ' >
       <SidebarItems color='white' >
         <SidebarItemGroup color='white'>
          <Link to='/dashboard?tab=profile'> <SidebarItem active={tab ==='profile'} icon={HiUser} label="User" >Profile</SidebarItem></Link>
